@@ -6,7 +6,7 @@ import numpy as np
 interface = 'wlo1'  # wlo1
 rssi_scanner = rssi.RSSI_Scan(interface)
 # ssids = ['unitn-x']
-ssids = ['VIVO HOTSPOT', "Xperia mini"]
+ssids = ['VIVO HOTSPOT', "Xperia mini", "Xperia xzp"]
 
 # all ap info
 ap_info = rssi_scanner.getAPinfo(networks=ssids, sudo=True)
@@ -15,18 +15,18 @@ ap_info = rssi_scanner.getAPinfo(networks=ssids, sudo=True)
 
 "Localizer"
 
-# accessPoint = {
-#     'signalAttenuation': 3,
-#     'location': {
-#         'y': 0,
-#         'x': 0
-#     },
-#     'reference': {
-#         'distance': 1,
-#         'signal': -48
-#     },
-#     'name': 'VIVO HOTSPOT'
-# }
+accessPoint = {
+    'signalAttenuation': 3,
+    'location': {
+        'y': 0,
+        'x': 0
+    },
+    'reference': {
+        'distance': 3,
+        'signal': -44
+    },
+    'name': 'xzp'
+}
 
 # accessPoints = [{
 #     'signalAttenuation': 3,
@@ -79,50 +79,50 @@ ap_info = rssi_scanner.getAPinfo(networks=ssids, sudo=True)
 #         'name': 'ucrwpa'
 # }]
 
-accessPoints = [{
-    'signalAttenuation': 3,
-    'location': {
-        'y': 2,
-        'x': 2
-    },
-    'reference': {
-        'distance': 1,
-        'signal': -41
-    },
-    'name': 'Xzp'
-},
-    {
-        'signalAttenuation': 4,
-        'location': {
-            'y': 2,
-            'x': 0
-        },
-        'reference': {
-            'distance': 1,
-            'signal': -43
-        },
-        'name': 'mini'
-}, {
-        'signalAttenuation': 4,
-        'location': {
-            'y': 0,
-            'x': 2
-        },
-        'reference': {
-            'distance': 1,
-            'signal': -40
-        },
-        'name': 'vivo'
-}]
+# accessPoints = [{
+#     'signalAttenuation': 3,
+#     'location': {
+#         'y': 2,
+#         'x': 2
+#     },
+#     'reference': {
+#         'distance': 1,
+#         'signal': -41
+#     },
+#     'name': 'Xzp'
+# },
+#     {
+#         'signalAttenuation': 4,
+#         'location': {
+#             'y': 2,
+#             'x': 0
+#         },
+#         'reference': {
+#             'distance': 1,
+#             'signal': -43
+#         },
+#         'name': 'mini'
+# }, {
+#         'signalAttenuation': 4,
+#         'location': {
+#             'y': 0,
+#             'x': 2
+#         },
+#         'reference': {
+#             'distance': 1,
+#             'signal': -40
+#         },
+#         'name': 'vivo'
+# }]
 
 # change according to needs (1 or several aps)
-rssi_localizer_instance = RSSI_Localizer(accessPoints=accessPoints)
+# rssi_localizer_instance = RSSI_Localizer(accessPoints=accessPoints)
 
-apNodes = RSSI_Localizer.getDistancesForAllAPs(
-    rssi_localizer_instance, [-44, -32, -63])  # for mult aps
-# distance = RSSI_Localizer.getDistanceFromAP(accessPoint, -58)  # for single ap
-print(f"\n this is distance of apNODE >>>{apNodes}")
-
+# apNodes = RSSI_Localizer.getDistancesForAllAPs(
+#     rssi_localizer_instance, [-44, -32, -63])  # for mult aps
+distance = RSSI_Localizer.getDistanceFromAP(accessPoint, -48)  # for single ap
+print(f"\n this is distance of apNODE >>>{distance}")
+print(ap_info)
 # my fix here
 
 
@@ -154,7 +154,7 @@ def createMatrices(accessPoints):
 
 
 # print(createMatrices(apNodes))
-a, b = createMatrices(apNodes)
+# a, b = createMatrices(apNodes)
 
 
 def computePosition(a, b):
@@ -176,7 +176,7 @@ def computePosition(a, b):
     return x
 
 
-print(computePosition(a, b))
+# print(computePosition(a, b))
 # end of fixing
 
 # print(np.linalg.inv([[4,0], [1,2]]))
