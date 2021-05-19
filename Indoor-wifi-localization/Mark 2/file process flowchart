@@ -1,6 +1,0 @@
-fingerprint process	
-pool			p
-unique			u
-remove 110		r1
-remove outliers		ro
-make ranges		g
