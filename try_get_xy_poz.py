@@ -15,35 +15,35 @@ ap_info = rssi_scanner.getAPinfo(networks=ssids, sudo=True)
 accessPoints = [{
     'signalAttenuation': 3,
     'location': {
-        'y': 1,
+        'y': 0,
         'x': 0
     },
     'reference': {
-        'distance': 1,
-        'signal': -45
+        'distance': 3,
+        'signal': -48
     },
     'name': 'mini'
 },
     {
-        'signalAttenuation': 3,
+        'signalAttenuation': 2,
         'location': {
-            'y': 2,
-            'x': 2
+            'y': 6,
+            'x': 0
         },
         'reference': {
-            'distance': 1,
-            'signal': -37
+            'distance': 4,
+            'signal': -53
         },
         'name': 'xzp'
 }, {
-        'signalAttenuation': 3,
+        'signalAttenuation': 2,
         'location': {
-            'y': 0,
-            'x': 2
+            'y': 6,
+            'x': 4
         },
         'reference': {
-            'distance': 1,
-            'signal': -32
+            'distance': 3,
+            'signal': -53
         },
         'name': 'vivo'
 }]
@@ -78,3 +78,4 @@ distance = RSSI_Localizer.getDistancesForAllAPs(
 print(f"this is distance dict> {distance}")
 position = rssi_localizer_instance.getNodePosition(rssi_values)
 print(f"x > {position[0]}, y > {position[1]}")
+print(f"this is rssi values order >>{rssi_values}")
