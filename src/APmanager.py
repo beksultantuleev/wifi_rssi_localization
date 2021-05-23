@@ -19,23 +19,24 @@ class APmanager():
             return composite
         return getit
 
-    def add_ap(self, atten, x, y, dist, signal, name):
+    def add_anchor_ap(self, attenuation, x, y, distance, signal, name, mac):
         ap = {
-            'signalAttenuation': atten,
+            'signalAttenuation': attenuation,
             'location': {
                 'y': y,
                 'x': x
             },
             'reference': {
-                'distance': dist,
+                'distance': distance,
                 'signal': signal
             },
-            'name': name
+            'name': name,
+            "mac" : mac
         }
         self.list_of_aps.append(ap)
         # if len(self.list_of_aps) > 1:
         self.sorted_list_of_aps = sorted(
-            self.list_of_aps, key=self.sortkeypicker(["name"]))
+            self.list_of_aps, key=self.sortkeypicker(["mac"]))
 
     # def add_ap_to_list(self, ap):
     #     self.list_of_aps.append(ap)
@@ -48,8 +49,8 @@ class APmanager():
 
 if __name__ == "__main__":
     test = APmanager()
-    test.add_ap(3, 0, 1, 5, -54, "V")
-    test.add_ap(4, 1, 2, 5, -65, "C")
+    test.add_anchor_ap(3, 0, 1, 5, -54, "V", "this is mac")
+    test.add_anchor_ap(4, 1, 2, 5, -65, "C", "no this is mac")
     print("not sorted")
     print(test.get_ap_list())
     print("sorted")
