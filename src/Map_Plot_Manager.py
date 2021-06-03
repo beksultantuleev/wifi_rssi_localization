@@ -15,6 +15,7 @@ class Plot_manager:
         self.topic = topic
         self.host = host
         self.mqtt = Mqtt_Manager("localhost", self.topic)
+        plt.style.use('fivethirtyeight')
 
     def animate(self, i):
         if len(self.mqtt.processed_data) > 0:
@@ -31,11 +32,9 @@ class Plot_manager:
             plt.plot(posX, posY, label='movement', linestyle="--", alpha=0.5)
             # on y axis (horizontal)
             plt.axhline(self.room_size[0], color="#01BFDA")
-            # on y axis (horizontal)
             plt.axhline(self.room_size[2], color="#01BFDA")
             # on x axis (vertical)
             plt.axvline(self.room_size[1], color="#01BFDA")
-            # on x axis (vertical)
             plt.axvline(self.room_size[3], color="#01BFDA")
             # plt.axhspan(0, 6, alpha=0.2) #does not work with lists
             # plt.axvspan(self.room_size[2], self.room_size[3], alpha=0.2) #does not work with lists
@@ -50,7 +49,7 @@ class Plot_manager:
             except:
                 print("no last value yet")
 
-            plt.grid()
+            # plt.grid()
             plt.xlabel("Y")
             plt.ylabel("X")
             # plt.legend(loc='upper left')
