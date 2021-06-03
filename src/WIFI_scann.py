@@ -1,17 +1,18 @@
+
 import sys
 import os
 import inspect
 import numpy as np
 from APmanager import APmanager
+from Mqtt_manager import Mqtt_Manager
+import time
 
 currentdir = os.path.dirname(os.path.abspath(
     inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
-
-from rssi_module import rssi
 from rssi_module.rssi import RSSI_Localizer, RSSI_Scan
-
+from rssi_module import rssi
 
 class WIFI_scann():
     def __init__(self, interface='wlo1'):
@@ -42,7 +43,7 @@ class WIFI_scann():
         return self.targeted_aps_sorted
 
     def localizer_instance(self):
-        accessPoints = test.ap_manager.get_sorted_ap_list()
+        accessPoints = self.ap_manager.get_sorted_ap_list()
         self.rssi_localizer_instance = RSSI_Localizer(accessPoints)
         return self.rssi_localizer_instance
 
@@ -54,28 +55,44 @@ class WIFI_scann():
             # ap_ssid.append(aps['ssid'])
         return rssi_values
 
+    def get_sorted_rssi(self, sub_li):
+        "for mqtt"
+        sorted_rssi = [] #to see mac as well
+        srt = sorted(sub_li, key=lambda x: x[0])
+        for rssi in srt:
+            sorted_rssi.append(rssi[1])
+        return sorted_rssi
+
+    def get_sorted_mac(self, sub_li):
+        "for mqtt"
+        sorted_mac = [] #to see mac as well
+        srt = sorted(sub_li, key=lambda x: x[0])
+        for rssi in srt:
+            sorted_mac.append(rssi[0])
+        return sorted_mac
 
 if __name__ == "__main__":
     test = WIFI_scann()
     test.ap_manager.add_anchor_ap(
-        attenuation=6, x=0, y=0, distance=3, signal=-48, name="mini", mac='84:00:D2:7B:03:D0')
-    test.ap_manager.add_anchor_ap(2, 0, 6, 4, -53, "xzp", '84:C7:EA:85:D2:41')
-    test.ap_manager.add_anchor_ap(4, 4, 6, 3, -53, "vivo", '18:E2:9F:7F:8C:D6')
+        attenuation=6, x=0, y=0, distance=3, signal=-48, name="mini", mac='84:00:d2:7b:03:d0')
+    test.ap_manager.add_anchor_ap(2, 0, 6, 4, -53, "xzp", '84:c7:ea:85:d2:41')
+    test.ap_manager.add_anchor_ap(4, 4, 6, 3, -53, "vivo", '18:e2:9f:7f:8c:d6')
     accessPoints = test.ap_manager.get_sorted_ap_list()
     # print(f"this is aps >> {accessPoints}")
 
     rssi_localizer_instance = test.localizer_instance()
 
     test.targeted_ap_scann(['VIVO HOTSPOT', "Xperia mini", "Xperia xzp"])
-    position = rssi_localizer_instance.getNodePosition(
-        test.get_targeted_ap_rssi())
-    # print(f"this is targets rssis >>{test.get_targeted_ap_rssi()}")
-    distance = RSSI_Localizer.getDistancesForAllAPs(
-    rssi_localizer_instance, test.get_targeted_ap_rssi())
-    print(f"this is distance > {distance}")
-    # print(test.ap_manager.get_sorted_ap_list()) #ancor aps
-    # print(test.ap_manager.get_ap_list())
-    print(f"x={position[0]}, y = {position[1]}")
-    # print(accessPoints)
-    # test.scann_all_aps()
-    # print(test.get_all_aps())
+    mqttCon = Mqtt_Manager("localhost", "rssi_mac")
+    while True:
+        time.sleep(0.2)
+        if mqttCon.processed_data:
+            rssis = test.get_sorted_rssi(mqttCon.processed_data)
+            if len(rssis)<3:
+                raise Exception("one of ap died")
+            position = rssi_localizer_instance.getNodePosition(
+                rssis)
+            print(f"x={position[0]}, y = {position[1]}")
+
+    
+

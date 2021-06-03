@@ -29,4 +29,3 @@ scapy==2.4.5
 six==1.16.0
 traitlets==5.0.5
 wcwidth==0.2.5
-wireless-radar==0.2.3.1

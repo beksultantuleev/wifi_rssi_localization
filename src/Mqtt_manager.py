@@ -35,8 +35,8 @@ class Mqtt_Manager:
         'change here if want different data structure'
         self.raw_data = message.payload.decode("utf-8")
         self.processed_data = json.loads(self.raw_data)
-        data = message.payload[1:-1].decode("utf-8").split(",")
-        self.processed_data_nested = np.array([[float(data[0])], [float(data[1])], [float(data[2])]])
+        # data = message.payload[1:-1].decode("utf-8").split(",")
+        # self.processed_data_nested = np.array([[float(data[0])], [float(data[1])], [float(data[2])]])
 
 
     def connect(self):
@@ -66,11 +66,11 @@ class Mqtt_Manager:
 #     client.disconnect()
 #     client.loop_stop()
 if __name__=="__main__":
-    test = Mqtt_Manager("localhost", "rssi_mac") #accelerometer_LSM303AGR
+    test = Mqtt_Manager("localhost", "top") #accelerometer_LSM303AGR
 
     while True:
         time.sleep(0.1)
         if test.processed_data:
-            print(test.processed_data[0])
+            print(test.processed_data)
         # test.publish("d", "works!!")
         # test.publish("c", "works2!!")
