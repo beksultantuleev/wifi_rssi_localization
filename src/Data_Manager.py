@@ -13,13 +13,13 @@ class Data_Manager:
         self.posY = 0
         self.posZ = 0
 
-        with open('data.csv', 'w') as csv_file:
+        with open('positions.csv', 'w') as csv_file:
             csv_writer = csv.DictWriter(csv_file, fieldnames=self.fieldnames)
             csv_writer.writeheader()
 
     def start(self, X, Y, Z):
 
-        with open('data.csv', 'a') as csv_file:
+        with open('positions.csv', 'a') as csv_file:
             csv_writer = csv.DictWriter(csv_file, fieldnames=self.fieldnames)
 
             info = {
@@ -41,6 +41,5 @@ if __name__ == "__main__":
     mqtt = Mqtt_Manager("localhost", "top")
     while True:
         if len(mqtt.processed_data)>0:
-            # print(mqtt.processed_data[0])
             test.start(mqtt.processed_data[0], mqtt.processed_data[2], "yes")
-            time.sleep(0.3)
+            time.sleep(0.5)
