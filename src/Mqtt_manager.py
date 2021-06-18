@@ -66,7 +66,7 @@ class Mqtt_Manager:
 #     client.disconnect()
 #     client.loop_stop()
 if __name__=="__main__":
-    test = Mqtt_Manager("localhost", "top") #accelerometer_LSM303AGR
+    test = Mqtt_Manager("localhost", "position") #accelerometer_LSM303AGR
 
     while True:
         time.sleep(0.1)
