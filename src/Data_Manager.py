@@ -4,6 +4,7 @@ import random
 import time
 from Mqtt_manager import Mqtt_Manager
 
+"it will write to a file"
 
 class Data_Manager:
     def __init__(self):

@@ -8,7 +8,9 @@ import numpy as np
 from scipy.spatial import distance
 from Mqtt_manager import Mqtt_Manager
 from scipy.spatial.distance import cdist
+import time
 
+"this is final version 3.0, works with MQTT direct data access"
 
 class Plot_manager:
     def __init__(self, topic, anchor_list=[], room_size=[0, 0, 6, 6], host="localhost"):
@@ -17,37 +19,39 @@ class Plot_manager:
         self.topic = topic
         self.host = host
         self.mqtt = Mqtt_Manager("localhost", self.topic)
-        plt.style.use('fivethirtyeight')
+        plt.style.use('fivethirtyeight') #fivethirtyeight ggplot
 
     def animate(self, i):
         if len(self.mqtt.processed_data) > 0:
             tag = 1
             ax = plt.gca()
             ax.cla()
-            plt.title("Real time map")
+            plt.title("Real-time map")
             "calculate distance"
-            euclid_dist_between_points = cdist(
-                self.mqtt.processed_data, self.mqtt.processed_data, "euclidean")
-            distances = set(
-                euclid_dist_between_points[np.triu_indices_from(euclid_dist_between_points)])
-            distances.remove(0)
-            distances_list = list(distances)
-            # print(distances_list)
+            if len(self.mqtt.processed_data) >1:
+                euclid_dist_between_points = cdist(
+                    self.mqtt.processed_data, self.mqtt.processed_data, "euclidean")
+                distances = set(
+                    euclid_dist_between_points[np.triu_indices_from(euclid_dist_between_points)])
+                distances.remove(0)
+                d = min(distances)
+                self.mqtt.publish("min_distance", f'{d}')
+                if d<1:
+                    plt.text(self.room_size[0]+0.1,self.room_size[2]-0.5, f"mind distance!", color = "r")
+                    if d<0.5:
+                        self.mqtt.publish("LDV time", f'{time.time()}')
+                # print(distances_list)
             for positions in self.mqtt.processed_data:
                 ax.plot(positions[0], positions[1],
                         label='movement', linestyle="--", alpha=0.5)
                 ax.plot((positions[0]), (positions[1]), 'o', color='g')
                 plt.text(positions[0], positions[1], f"person {tag}")
-                # plt.scatter(posX, posY, c="g")
                 circle = plt.Circle(
                     (positions[0], positions[1]), 0.5, color='b', fill=False)
                 ax.add_patch(circle)
                 # print(distances_list)
                 tag += 1
-            for d in distances_list:
-                if d<1:
-                    plt.text(3,1, f"mind distance!", color = "r")
-                    self.mqtt.publish("distance", "warning")
+
 
             # on y axis (horizontal)
             plt.axhline(self.room_size[0], color="#01BFDA")
@@ -76,16 +80,16 @@ class Plot_manager:
             # plt.text(anchor_list[0], anchor_list[1], anchor_list[2], color = "blue")
 
     def run(self):
-        ani = FuncAnimation(plt.gcf(), self.animate, interval=100)
+        ani = FuncAnimation(plt.gcf(), self.animate, interval=200)
         plt.tight_layout()
         plt.show()
 
 
 if __name__ == "__main__":
-    # anchors = [[0, 0, "anchor1"], [7, 7, "anchor2"],
-    #            [7, 0, "anchor3"], [0, 7, "anchor4"]]
-    anchors = [[2, 0, "xzp"], [4, 2, "sky"],
-               [0, 1.5, "vm"]]
-    room_size = [0, 0, 4, 4]  # x1, y1, x2, y2
-    test = Plot_manager(topic="position", anchor_list=anchors, room_size=room_size)
+    anchors = [[0, 0, "anchor1"], [10, 7, "anchor2"],
+               [10, 0, "anchor3"], [0, 7, "anchor4"]]
+    # anchors = [[2, 0, "xzp"], [4, 2, "sky"],
+    #            [0, 1.5, "vm"]]
+    room_size = [0, 0, 7, 10]  # x1, y1, x2, y2
+    test = Plot_manager(topic="positions", room_size=room_size, anchor_list=anchors, host="localhost") #positions position
     test.run()

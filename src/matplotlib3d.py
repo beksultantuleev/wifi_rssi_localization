@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from mpl_toolkits import mplot3d
 import numpy as np
-
+"this is raw version 1.0"
 # plt.style.use('fivethirtyeight')
 
 # x_vals = []

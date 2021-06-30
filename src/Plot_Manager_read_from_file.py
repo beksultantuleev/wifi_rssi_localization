@@ -7,6 +7,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 from Mqtt_manager import Mqtt_Manager
 
+"this is version 2.0 oriented for file read operation (but not final)"
 
 class Plot_manager:
     def __init__(self, topic, anchor_list=[], room_size=[0, 0, 6, 6], host="localhost"):

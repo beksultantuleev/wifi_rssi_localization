@@ -94,7 +94,7 @@ if __name__ == "__main__":
     rssi_localizer_instance = test.localizer_instance()
 
     # test.targeted_ap_scann(['VIVO HOTSPOT', "Xperia mini", "Xperia xzp"])
-    test.targeted_ap_scann(['VM6282415', "SKY65394", "Xperia xzp"])
+    test.targeted_ap_scann(['White castle 2.4Ghz', "White castle 5Ghz", "Xperia xzp"])
     mqttCon = Mqtt_Manager("localhost", "rssi_mac")
     while True:
         time.sleep(0.2)
