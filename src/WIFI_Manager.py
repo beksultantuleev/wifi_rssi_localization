@@ -62,6 +62,3 @@ if __name__ == "__main__":
                 rssis)
             print(f"x={position[0][0]}, y = {position[1][0]}")
             mqttCon.publish("position", f"{[[position[0][0], position[1][0]]]}")
-
-    
-
