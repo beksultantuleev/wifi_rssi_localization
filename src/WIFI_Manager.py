@@ -54,7 +54,7 @@ if __name__ == "__main__":
     while True:
         time.sleep(0.2)
         if mqttCon.processed_data:
-            rssis = test.get_sorted_rssi([['84:c7:ea:85:d2:41', -45+(np.random.randint(-3,3))], ['00:22:3F:54:86:2A'.lower(), -32], ['C0:05:C2:AA:41:99'.lower(), -22]])#test.get_sorted_rssi(mqttCon.processed_data)
+            rssis = test.get_sorted_rssi([['84:c7:ea:85:d2:41', -45+(np.random.randint(-2,2))], ['00:22:3F:54:86:2A'.lower(), -32], ['C0:05:C2:AA:41:99'.lower(), -22]])#test.get_sorted_rssi(mqttCon.processed_data)
             print(rssis)
             if len(rssis)<3:
                 raise Exception("one of ap died")
