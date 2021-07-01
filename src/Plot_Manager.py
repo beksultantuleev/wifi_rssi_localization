@@ -87,7 +87,7 @@ class Plot_manager:
 
 if __name__ == "__main__":
 
-    wifi_flag = False
+    wifi_flag = True
     if wifi_flag:
         topic = "position"
         room_size = [0, 0, 4, 4]
