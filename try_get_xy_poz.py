@@ -73,9 +73,9 @@ for aps in ap_info:
 ziped_v = set(zip(ap_ssid, rssi_values))
 print(f"{ziped_v}")
 
-distance = RSSI_Localizer.getDistancesForAllAPs(
-    rssi_localizer_instance, rssi_values)  # for mult aps
-print(f"this is distance dict> {distance}")
-position = rssi_localizer_instance.getNodePosition(rssi_values)
+# distance = RSSI_Localizer.getDistancesForAllAPs(
+#     rssi_localizer_instance, rssi_values)  # for mult aps
+# print(f"this is distance dict> {distance}")
+position = rssi_localizer_instance.getNodePosition([-30,-50,-60])
 print(f"x > {position[0]}, y > {position[1]}")
 print(f"this is rssi values order >>{rssi_values}")

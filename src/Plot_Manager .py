@@ -91,5 +91,5 @@ if __name__ == "__main__":
     # anchors = [[2, 0, "xzp"], [4, 2, "sky"],
     #            [0, 1.5, "vm"]]
     room_size = [0, 0, 7, 10]  # x1, y1, x2, y2
-    test = Plot_manager(topic="positions", room_size=room_size, anchor_list=anchors, host="localhost") #positions position
+    test = Plot_manager(topic="position", room_size=room_size, anchor_list=anchors, host="localhost") #positions position
     test.run()

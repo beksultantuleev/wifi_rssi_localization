@@ -14,7 +14,7 @@ sys.path.insert(0, parentdir)
 from rssi_module.rssi import RSSI_Localizer, RSSI_Scan
 from rssi_module import rssi
 
-class WIFI_scann():
+class WIFI_Manager():
     def __init__(self, interface='wlo1'):
         self.interface = interface
         self.list_of_found_aps = []
@@ -72,7 +72,7 @@ class WIFI_scann():
         return sorted_mac
 
 if __name__ == "__main__":
-    test = WIFI_scann()
+    test = WIFI_Manager()
     # test.ap_manager.add_anchor_ap(
     #     attenuation=6, x=0, y=0, distance=3, signal=-48, name="mini", mac='84:00:d2:7b:03:d0')
     test.ap_manager.add_anchor_ap(
@@ -95,6 +95,7 @@ if __name__ == "__main__":
 
     # test.targeted_ap_scann(['VIVO HOTSPOT', "Xperia mini", "Xperia xzp"])
     test.targeted_ap_scann(['White castle 2.4Ghz', "White castle 5Ghz", "Xperia xzp"])
+
     mqttCon = Mqtt_Manager("localhost", "rssi_mac")
     while True:
         time.sleep(0.2)
